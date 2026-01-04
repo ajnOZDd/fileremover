@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="fileremover",
-    version="1.0.0",
+    version="1.1.0",
     description="Application de suppression de fichiers avec choix corbeille/définitif pour KDE Dolphin",
     author="Your Name",
     py_modules=["fileremover"],

@@ -1,15 +1,238 @@
-#installation 
-pip install --user PyQt6 send2trash
+# 🗑️ FileRemover
 
-#local install 
-pip install --user .
+Application de suppression de fichiers avec choix corbeille/définitif pour KDE Dolphin sur Fedora.
 
-#fedora/dolphin
+## 📋 Description
+
+FileRemover ajoute un menu contextuel personnalisé dans Dolphin qui vous permet de choisir entre :
+- **🗑️ Déplacer vers la corbeille** : Suppression réversible, vous pouvez récupérer les fichiers
+- **⚠️ Supprimer définitivement** : Suppression irréversible avec confirmation
+
+Plus besoin de maintenir Shift+Suppr ou d'aller dans les paramètres - choisissez directement depuis le clic droit !
+
+## ✨ Fonctionnalités
+
+- ✅ Interface graphique intuitive avec PyQt6
+- ✅ Support de la sélection multiple
+- ✅ Confirmation pour la suppression définitive
+- ✅ Gestion des erreurs avec messages détaillés
+- ✅ Intégration native dans Dolphin
+- ✅ Compatible Plasma 6
+
+## 🖼️ Aperçu
+
+Après installation, faites un clic droit sur n'importe quel fichier/dossier dans Dolphin :
+
+```
+Fichier sélectionné
+├─ Ouvrir
+├─ Ouvrir avec...
+├─ Couper
+├─ Copier
+├─ Supprimer (avec choix) ← Nouvelle option !
+└─ Propriétés
+```
+
+Une fenêtre s'ouvre avec vos choix :
+```
+┌─────────────────────────────────────┐
+│  Vous êtes sur le point de suppr.  │
+│                                     │
+│  🗂️ X élément(s)                    │
+│                                     │
+│  Que voulez-vous faire ?            │
+│                                     │
+│  [ 🗑️ Tout déplacer vers corbeille ]│
+│  [ ⚠️ Supprimer définitivement ]    │
+│  [ Annuler ]                        │
+└─────────────────────────────────────┘
+```
+
+## 📦 Prérequis
+
+### Système
+- **OS** : Fedora (ou autre distribution Linux)
+- **Environnement** : KDE Plasma 6
+- **Gestionnaire de fichiers** : Dolphin
+
+### Dépendances Python
+- Python 3.7 ou supérieur
+- PyQt6
+- send2trash
+
+## 🚀 Installation
+
+### Installation automatique (recommandée)
+
+```bash
+# Cloner ou télécharger le projet
+cd fileremover
+
+# Rendre le script d'installation exécutable
+chmod +x install.sh
+
+# Lancer l'installation
+./install.sh
+```
+
+Le script d'installation va :
+1. ✅ Installer le package Python
+2. ✅ Configurer le menu contextuel Dolphin
+3. ✅ Reconstruire le cache KDE
+4. ✅ Redémarrer Dolphin
+
+### Installation manuelle
+
+```bash
+# Installer les dépendances système (Fedora)
+sudo dnf install python3-pyqt6
+
+# Installer le package Python
+pip install --user -e .
+
+# Installer le menu contextuel
 fileremover --install-service
+
+# Reconstruire le cache KDE
 kbuildsycoca6
-killall dolphin
-dolphin &
 
-#usage
-fileremover <dir>
+# Redémarrer Dolphin
+killall dolphin && dolphin &
+```
 
+## 📖 Utilisation
+
+### Via Dolphin (principal)
+1. Ouvrez Dolphin
+2. Sélectionnez un ou plusieurs fichiers/dossiers
+3. Clic droit → **"Supprimer (avec choix)"**
+4. Choisissez votre méthode de suppression
+
+### En ligne de commande (avancé)
+```bash
+# Supprimer des fichiers spécifiques
+fileremover /chemin/fichier1.txt /chemin/dossier/
+
+# Mode interactif (sélection de fichier)
+fileremover
+```
+
+## ⚙️ Configuration
+
+### Emplacement du menu contextuel
+Le fichier de configuration se trouve ici :
+```
+~/.local/share/kio/servicemenus/fileremover.desktop
+```
+
+### Personnalisation
+Vous pouvez modifier le fichier `.desktop` pour :
+- Changer le nom du menu
+- Modifier l'icône
+- Ajuster les types MIME supportés
+
+Exemple :
+```ini
+[Desktop Action delete_choice]
+Name=Mon menu personnalisé
+Icon=user-trash
+Exec=fileremover %F
+```
+
+Après modification, reconstruisez le cache :
+```bash
+kbuildsycoca6
+```
+
+## 🛠️ Structure du projet
+
+```
+fileremover/
+├── fileremover.py      # Script principal
+├── setup.py            # Configuration du package
+├── install.sh          # Script d'installation automatique
+└── README.md           # Ce fichier
+```
+
+## 🐛 Dépannage
+
+### Le menu n'apparaît pas dans Dolphin
+
+1. Vérifiez que le fichier existe :
+   ```bash
+   ls -l ~/.local/share/kio/servicemenus/fileremover.desktop
+   ```
+
+2. Reconstruisez le cache :
+   ```bash
+   kbuildsycoca6
+   ```
+
+3. Redémarrez Dolphin :
+   ```bash
+   killall dolphin && dolphin &
+   ```
+
+### Erreur "send2trash not found"
+
+```bash
+pip install --user send2trash
+```
+
+### Erreur "fileremover: command not found"
+
+Ajoutez `~/.local/bin` à votre PATH :
+```bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### Problème avec Plasma 5
+
+Si vous utilisez encore Plasma 5, modifiez le chemin dans `fileremover.py` :
+```python
+# Changer de :
+service_dir = Path.home() / ".local/share/kio/servicemenus"
+
+# Vers :
+service_dir = Path.home() / ".local/share/kservices5/ServiceMenus"
+```
+
+## 🔒 Sécurité
+
+- ⚠️ La suppression définitive est **IRRÉVERSIBLE**
+- Une confirmation est toujours demandée avant suppression définitive
+- Les fichiers déplacés vers la corbeille peuvent être récupérés via l'application Corbeille de KDE
+
+## 📝 Licence
+
+MIT License - Libre d'utilisation, modification et distribution.
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! N'hésitez pas à :
+- Signaler des bugs
+- Proposer des améliorations
+- Soumettre des pull requests
+
+## 👤 Auteur
+
+Créé pour faciliter la gestion des fichiers sur KDE Plasma.
+
+## 📚 Ressources
+
+- [Documentation KDE Service Menus](https://develop.kde.org/docs/extend/plasma/servicemenu/)
+- [PyQt6 Documentation](https://www.riverbankcomputing.com/static/Docs/PyQt6/)
+- [send2trash Documentation](https://github.com/arsenetar/send2trash)
+
+## 🎯 Roadmap
+
+- [ ] Support de la traduction multilingue
+- [ ] Options de configuration via GUI
+- [ ] Statistiques de suppression
+- [ ] Mode "déplacement sécurisé" avec écrasement
+- [ ] Support d'autres gestionnaires de fichiers (Nautilus, Thunar)
+
+---
+
+**Note** : Ce projet est conçu spécifiquement pour KDE Plasma 6 sur Fedora, mais peut être adapté pour d'autres distributions Linux avec KDE.
