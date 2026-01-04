@@ -1,0 +1,8 @@
+fileremover.py
+setup.py
+fileremover.egg-info/PKG-INFO
+fileremover.egg-info/SOURCES.txt
+fileremover.egg-info/dependency_links.txt
+fileremover.egg-info/entry_points.txt
+fileremover.egg-info/requires.txt
+fileremover.egg-info/top_level.txt

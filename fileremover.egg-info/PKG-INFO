@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: fileremover
+Version: 1.0.0
+Summary: Application de suppression de fichiers avec choix corbeille/définitif pour KDE Dolphin
+Author: Your Name
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Operating System :: POSIX :: Linux
+Requires-Python: >=3.7
+Requires-Dist: PyQt6>=6.0.0
+Requires-Dist: send2trash>=1.8.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
