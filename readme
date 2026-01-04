@@ -1,0 +1,15 @@
+#installation 
+pip install --user PyQt6 send2trash
+
+#local install 
+pip install --user .
+
+#fedora/dolphin
+fileremover --install-service
+kbuildsycoca6
+killall dolphin
+dolphin &
+
+#usage
+fileremover <dir>
+
